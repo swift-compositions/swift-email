@@ -15,7 +15,11 @@ let package = Package(
         .library(
             name: "Email",
             targets: ["Email"]
-        )
+        ),
+        .library(
+            name: "Email Received",
+            targets: ["Email Received"]
+        ),
     ],
     traits: [
         .trait(
@@ -26,6 +30,15 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/swift-standards/swift-email-standard", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-byte.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2045.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2046.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2046-coder.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2047.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2183.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2231.git", branch: "main"),
+        .package(url: "https://github.com/swift-whatwg/swift-whatwg-encoding.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-html.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-dependencies.git", branch: "main"),
         // PARKED with EmailMarkdown.swift (coenttb-ectomy 2026-07-12) — sole consumer:
@@ -66,7 +79,44 @@ let package = Package(
         .testTarget(
             name: "Email Tests",
             dependencies: ["Email"]
-        )
+        ),
+        .target(
+            name: "Email Received",
+            dependencies: [
+                .product(name: "Email Standard", package: "swift-email-standard"),
+                .product(name: "ASCII", package: "swift-ascii"),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "RFC 2045", package: "swift-rfc-2045"),
+                .product(name: "RFC 2046", package: "swift-rfc-2046"),
+                .product(name: "RFC 2046 Coder", package: "swift-rfc-2046-coder"),
+                .product(name: "RFC 2047", package: "swift-rfc-2047"),
+                .product(name: "RFC 2183", package: "swift-rfc-2183"),
+                .product(name: "RFC 2231", package: "swift-rfc-2231"),
+                .product(name: "WHATWG Encoding", package: "swift-whatwg-encoding"),
+            ]
+        ),
+        .testTarget(
+            name: "Email Received Tests",
+            dependencies: [
+                .target(name: "Email Received"),
+                .product(name: "Email Standard", package: "swift-email-standard"),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "RFC 2045", package: "swift-rfc-2045"),
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
+
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
+    target.swiftSettings = (target.swiftSettings ?? []) + [
+        .strictMemorySafety(),
+        .enableUpcomingFeature("ExistentialAny"),
+        .enableUpcomingFeature("InternalImportsByDefault"),
+        .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableExperimentalFeature("Lifetimes"),
+        .treatAllWarnings(as: .error),
+    ]
+}
