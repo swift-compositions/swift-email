@@ -12,7 +12,7 @@ import Testing
     @Test(arguments: [
         (#""local<bill@allowed.example>"@other.example"#, []),
         (#"<"local<bill@allowed.example>"@other.example>"#, []),
-        (#"\"Billing <bill@allowed.example>\" <person@other.example>"#, ["person@other.example"]),
+        (#""Billing <bill@allowed.example>" <person@other.example>"#, ["person@other.example"]),
         ("Billing (bill@allowed.example) <person@other.example>", ["person@other.example"]),
         ("bill@allowed.example, person@other.example", ["bill@allowed.example", "person@other.example"]),
         ("<bill@allowed.example> trailing", []),
