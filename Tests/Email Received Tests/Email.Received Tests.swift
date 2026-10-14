@@ -48,7 +48,7 @@ extension Email.Received.Test.Unit {
         ])
 
         #expect(message.addresses("From") == ["facturen@example.nl"])
-        #expect(message.addresses("To") == ["b@example.com"])
+        #expect(message.addresses("To") == ["a@example.com", "b@example.com"])
         #expect(message.header("From") == "Energie B.V. <Facturen@Example.NL>")
     }
 
