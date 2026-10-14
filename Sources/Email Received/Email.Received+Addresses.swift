@@ -9,7 +9,7 @@ extension Email.Received {
               let raw = entity[name], let fields = Self.mailboxes(String(decoding: raw.map(\.bitPattern), as: UTF8.self)) else { return [] }
         var result: [String] = []
         for field in fields {
-            guard let address = Self.address(field) else { return [] }
+            guard let address = Self.address(field), !address.contains("<"), !address.contains(">") else { return [] }
             do throws(RFC_5322.Mailbox.Error) {
                 result.append(try RFC_5322.Mailbox(address).address.lowercased())
             } catch {
