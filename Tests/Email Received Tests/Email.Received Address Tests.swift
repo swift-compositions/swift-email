@@ -22,4 +22,10 @@ import Testing
         let message = Email.Received([Byte](utf8: "From: \(header)\r\n\r\nbody"))
         #expect(message.addresses("From") == expected)
     }
+    @Test func `undecodable attachments remain visible as failures`() {
+        let message = Email.Received([Byte](utf8: "Content-Type: application/pdf\r\nContent-Transfer-Encoding: base64\r\n\r\n!invalid!"))
+        #expect(message.attachments.isEmpty)
+        #expect(message.undecodableAttachmentCount == 1)
+    }
+
 }

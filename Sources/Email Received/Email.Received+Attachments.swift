@@ -8,6 +8,10 @@ import RFC_2231
 
 extension Email.Received {
 
+    public var undecodableAttachmentCount: Int {
+        leaves.filter { Self.isAttachment($0) && $0.content == nil }.count
+    }
+
     public var attachments: [Email.Received.Attachment] {
         leaves.filter(Self.isAttachment).compactMap { leaf in
             leaf.content.map { content in
