@@ -83,6 +83,7 @@ let package = Package(
         .target(
             name: "Email Received",
             dependencies: [
+                .product(name: "RFC 5322", package: "swift-rfc-5322"),
                 .product(name: "Email Standard", package: "swift-email-standard"),
                 .product(name: "ASCII", package: "swift-ascii"),
                 .product(name: "Byte", package: "swift-byte"),
