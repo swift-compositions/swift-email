@@ -3,7 +3,7 @@ import Email_Received
 import Email_Standard
 import Testing
 
-@Suite struct `Sender address boundaries` {
+extension Email.Received.Test.`Edge Case` {
     @Test func `duplicate From headers are ambiguous`() {
         let message = Email.Received([Byte](utf8: "From: bill@allowed.example\r\nFrom: client@other.example\r\n\r\nbody"))
         #expect(message.addresses("From").isEmpty)
