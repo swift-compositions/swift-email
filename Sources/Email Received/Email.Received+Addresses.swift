@@ -1,12 +1,13 @@
-public import Email_Standard
 import Byte
-import RFC_5322
+public import Email_Standard
 import RFC_2046
+import RFC_5322
 
 extension Email.Received {
     public func addresses(_ name: String) -> [String] {
         guard entity.fields.filter({ $0.name.lowercased() == name.lowercased() }).count == 1,
-              let raw = entity[name], let fields = Self.mailboxes(String(decoding: raw.map(\.bitPattern), as: UTF8.self)) else { return [] }
+            let raw = entity[name], let fields = Self.mailboxes(String(decoding: raw.map(\.bitPattern), as: UTF8.self))
+        else { return [] }
         var result: [String] = []
         for field in fields {
             guard let address = Self.address(field), !address.contains("<"), !address.contains(">") else { return [] }
@@ -42,12 +43,29 @@ extension Email.Received {
                 if character == ")" { comments -= 1 }
                 continue
             }
-            if character == "\"" { quoted.toggle(); field.append(character); continue }
+            if character == "\"" {
+                quoted.toggle()
+                field.append(character)
+                continue
+            }
             if !quoted {
-                if character == "(" { comments = 1; continue }
-                if character == "<" { guard !angle else { return nil }; angle = true }
-                if character == ">" { guard angle else { return nil }; angle = false }
-                if character == ",", !angle { fields.append(field); field = ""; continue }
+                if character == "(" {
+                    comments = 1
+                    continue
+                }
+                if character == "<" {
+                    guard !angle else { return nil }
+                    angle = true
+                }
+                if character == ">" {
+                    guard angle else { return nil }
+                    angle = false
+                }
+                if character == ",", !angle {
+                    fields.append(field)
+                    field = ""
+                    continue
+                }
                 if character == ":" || character == ";" { return nil }
             }
             field.append(character)
@@ -64,12 +82,27 @@ extension Email.Received {
         var closing: String.Index?
         for index in field.indices {
             let character = field[index]
-            if escaped { escaped = false; continue }
-            if character == "\\", quoted { escaped = true; continue }
-            if character == "\"" { quoted.toggle(); continue }
+            if escaped {
+                escaped = false
+                continue
+            }
+            if character == "\\", quoted {
+                escaped = true
+                continue
+            }
+            if character == "\"" {
+                quoted.toggle()
+                continue
+            }
             if !quoted {
-                if character == "<" { guard opening == nil else { return nil }; opening = index }
-                if character == ">" { guard closing == nil else { return nil }; closing = index }
+                if character == "<" {
+                    guard opening == nil else { return nil }
+                    opening = index
+                }
+                if character == ">" {
+                    guard closing == nil else { return nil }
+                    closing = index
+                }
             }
         }
         let value: Substring
