@@ -37,8 +37,11 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-byte.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-2045.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-2046.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-2046-coder.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-ietf/swift-rfc-2046.git",
+            branch: "main",
+            traits: [.trait(name: "Coder", condition: .when(traits: ["EmailReceived"]))]
+        ),
         .package(url: "https://github.com/swift-ietf/swift-rfc-2047.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-2183.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-2231.git", branch: "main"),
@@ -107,11 +110,6 @@ let package = Package(
                 .product(
                     name: "RFC 2046",
                     package: "swift-rfc-2046",
-                    condition: .when(traits: ["EmailReceived"])
-                ),
-                .product(
-                    name: "RFC 2046 Coder",
-                    package: "swift-rfc-2046-coder",
                     condition: .when(traits: ["EmailReceived"])
                 ),
                 .product(
