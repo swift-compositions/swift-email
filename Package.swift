@@ -25,7 +25,11 @@ let package = Package(
         .trait(
             name: "Translating",
             description: "Include TranslatedString integration for internationalization support"
-        )
+        ),
+        .trait(
+            name: "EmailReceived",
+            description: "Email Received and the dependencies only it needs"
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-standards/swift-email-standard", branch: "main"),
@@ -85,15 +89,51 @@ let package = Package(
             dependencies: [
                 .product(name: "RFC 5322", package: "swift-rfc-5322"),
                 .product(name: "Email Standard", package: "swift-email-standard"),
-                .product(name: "ASCII", package: "swift-ascii"),
-                .product(name: "Byte", package: "swift-byte"),
-                .product(name: "RFC 2045", package: "swift-rfc-2045"),
-                .product(name: "RFC 2046", package: "swift-rfc-2046"),
-                .product(name: "RFC 2046 Coder", package: "swift-rfc-2046-coder"),
-                .product(name: "RFC 2047", package: "swift-rfc-2047"),
-                .product(name: "RFC 2183", package: "swift-rfc-2183"),
-                .product(name: "RFC 2231", package: "swift-rfc-2231"),
-                .product(name: "WHATWG Encoding", package: "swift-whatwg-encoding"),
+                .product(
+                    name: "ASCII",
+                    package: "swift-ascii",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "Byte",
+                    package: "swift-byte",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2045",
+                    package: "swift-rfc-2045",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2046",
+                    package: "swift-rfc-2046",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2046 Coder",
+                    package: "swift-rfc-2046-coder",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2047",
+                    package: "swift-rfc-2047",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2183",
+                    package: "swift-rfc-2183",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "RFC 2231",
+                    package: "swift-rfc-2231",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
+                .product(
+                    name: "WHATWG Encoding",
+                    package: "swift-whatwg-encoding",
+                    condition: .when(traits: ["EmailReceived"])
+                ),
             ]
         ),
         .testTarget(

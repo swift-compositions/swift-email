@@ -1,6 +1,8 @@
-import Email_Standard
+#if EmailReceived
+    import Email_Standard
 
-extension Email.Received {
+    extension Email.Received {
 
-    enum Decoding {}
-}
+        enum Decoding {}
+    }
+#endif
