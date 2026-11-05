@@ -32,7 +32,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-standards/swift-email-standard", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-email-standard.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-byte.git", branch: "main"),
@@ -50,7 +50,7 @@ let package = Package(
         .package(url: "https://github.com/swift-compositions/swift-dependencies.git", branch: "main"),
         // PARKED with EmailMarkdown.swift (coenttb-ectomy 2026-07-12) — sole consumer:
         // .package(url: "https://github.com/swiftlang/swift-markdown", from: "0.4.0"),
-        .package(url: "https://github.com/apple/swift-collections", from: "1.1.2"),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
         .package(
             url: "https://github.com/swift-compositions/swift-translating.git",
             branch: "main",
