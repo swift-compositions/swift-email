@@ -10,7 +10,9 @@
 import Email
 import Testing
 
-extension StringBuilder {
+enum `StringBuilder Tests` {}
+
+extension `StringBuilder Tests` {
     @Suite
     struct Test {
         @Suite
@@ -24,7 +26,7 @@ extension StringBuilder {
     }
 }
 
-extension StringBuilder.Test.Unit {
+extension `StringBuilder Tests`.Test.Unit {
     @Test
     func `lines join with newlines`() {
         @StringBuilder
@@ -47,7 +49,7 @@ extension StringBuilder.Test.Unit {
     }
 }
 
-extension StringBuilder.Test.`Edge Case` {
+extension `StringBuilder Tests`.Test.`Edge Case` {
     @Test
     func `optional and conditional branches build`() {
         @StringBuilder

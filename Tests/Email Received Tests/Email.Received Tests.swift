@@ -4,7 +4,9 @@ import Email_Standard
 import RFC_2045
 import Testing
 
-extension Email.Received {
+enum `Email.Received Tests` {}
+
+extension `Email.Received Tests` {
 
     @Suite
     struct Test {
@@ -25,11 +27,11 @@ extension Email.Received {
     }
 }
 
-extension Email.Received.Test.Unit {
+extension `Email.Received Tests`.Test.Unit {
 
     @Test
     func `an encoded subject decodes in its charset`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Subject: =?ISO-8859-1?Q?Factuur_caf=E9?= =?UTF-8?B?4oKs?=",
             "",
             "x",
@@ -40,7 +42,7 @@ extension Email.Received.Test.Unit {
 
     @Test
     func `addresses are extracted from a display name`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "From: =?UTF-8?Q?Energie_B=2EV=2E?= <Facturen@Example.NL>",
             "To: a@example.com, \"B\" <b@example.com>",
             "",
@@ -54,7 +56,7 @@ extension Email.Received.Test.Unit {
 
     @Test
     func `the plain and html bodies decode with their charsets`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Content-Type: multipart/alternative; boundary=b",
             "",
             "--b",
@@ -76,7 +78,7 @@ extension Email.Received.Test.Unit {
 
     @Test
     func `a pdf attachment keeps its decoded content and RFC 2231 name`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Content-Type: multipart/mixed; boundary=m",
             "",
             "--m",
@@ -101,7 +103,7 @@ extension Email.Received.Test.Unit {
 
     @Test
     func `an encoded word filename and a content type name are read`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Content-Type: multipart/mixed; boundary=m",
             "",
             "--m",
@@ -121,7 +123,7 @@ extension Email.Received.Test.Unit {
 
     @Test
     func `a forwarded message contributes its body and attachments`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Content-Type: multipart/mixed; boundary=f",
             "",
             "--f",
@@ -147,23 +149,23 @@ extension Email.Received.Test.Unit {
     }
 }
 
-extension Email.Received.Test.`Edge Case` {
+extension `Email.Received Tests`.Test.`Edge Case` {
 
     @Test
     func `a raw latin1 header falls back to windows 1252`() {
-        let message = Email.Received.Test.message(octets: Array("Subject: caf".utf8) + [0xE9] + Array("\r\n\r\nx".utf8))
+        let message = `Email.Received Tests`.Test.message(octets: Array("Subject: caf".utf8) + [0xE9] + Array("\r\n\r\nx".utf8))
 
         #expect(message.subject == "café")
     }
 
     @Test
     func `raw UTF-8 in a header is kept`() {
-        #expect(Email.Received.Test.message(["Subject: Rekening – juni", "", "x"]).subject == "Rekening – juni")
+        #expect(`Email.Received Tests`.Test.message(["Subject: Rekening – juni", "", "x"]).subject == "Rekening – juni")
     }
 
     @Test
     func `an unknown charset falls back to the raw octets`() {
-        let message = Email.Received.Test.message([
+        let message = `Email.Received Tests`.Test.message([
             "Content-Type: text/plain; charset=x-unknown",
             "",
             "plain",
@@ -174,7 +176,7 @@ extension Email.Received.Test.`Edge Case` {
 
     @Test
     func `a message without a body part has no text`() {
-        let message = Email.Received.Test.message(["Content-Type: image/png", "", "x"])
+        let message = `Email.Received Tests`.Test.message(["Content-Type: image/png", "", "x"])
 
         #expect(message.text == nil)
         #expect(message.attachments.count == 1)
@@ -182,7 +184,7 @@ extension Email.Received.Test.`Edge Case` {
 
     @Test
     func `a missing header is absent`() {
-        #expect(Email.Received.Test.message(["", "x"]).subject == nil)
-        #expect(Email.Received.Test.message(["", "x"]).addresses("From").isEmpty)
+        #expect(`Email.Received Tests`.Test.message(["", "x"]).subject == nil)
+        #expect(`Email.Received Tests`.Test.message(["", "x"]).addresses("From").isEmpty)
     }
 }
