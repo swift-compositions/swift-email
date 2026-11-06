@@ -88,7 +88,7 @@ let package = Package(
         ),
         .testTarget(
             name: "Email Tests",
-            dependencies: ["Email"]
+            dependencies: [.target(name: "Email")]
         ),
         .target(
             name: "Email Received",
