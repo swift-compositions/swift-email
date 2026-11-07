@@ -1,11 +1,3 @@
-//
-//  StringBuilder.swift
-//  swift-email
-//
-//  Minimal string result builder, replacing the retired coenttb/swift-builders
-//  StringBuilder. Lines join with newlines (markdown/text-block semantics).
-//
-
 @resultBuilder
 public enum StringBuilder {
     public static func buildBlock(_ components: String...) -> String {
