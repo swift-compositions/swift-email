@@ -10,15 +10,15 @@
     extension Email.Received.Decoding {
 
         static func text(_ octets: [Byte], charset: String?) -> String {
-            switch charset.flatMap(WHATWG_Encoding.Encoding.init(label:)) {
+            switch charset.flatMap(WHATWG_Encoding::WHATWG_Encoding.Encoding.init(label:)) {
             case let encoding?: encoding.decode(octets)
             case nil: raw(octets)
             }
         }
 
         static func raw(_ octets: [Byte]) -> String {
-            let utf8 = WHATWG_Encoding.Encoding.utf8.decode(octets)
-            return utf8.unicodeScalars.contains("\u{FFFD}") ? WHATWG_Encoding.Encoding.windows1252.decode(octets) : utf8
+            let utf8 = WHATWG_Encoding::WHATWG_Encoding.Encoding.utf8.decode(octets)
+            return utf8.unicodeScalars.contains("\u{FFFD}") ? WHATWG_Encoding::WHATWG_Encoding.Encoding.windows1252.decode(octets) : utf8
         }
 
         static func header(_ value: [Byte]) -> String {
