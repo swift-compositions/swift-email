@@ -20,17 +20,17 @@
             }
         }
 
-        static func disposition(_ leaf: RFC_2046.Entity) -> RFC_2183.ContentDisposition? {
+        static func disposition(_ leaf: IETF.RFC.`2046`.Entity) -> IETF.RFC.`2183`.ContentDisposition? {
             leaf["Content-Disposition"].flatMap { value in
-                do throws(RFC_2183.ContentDisposition.Error) {
-                    return try RFC_2183.ContentDisposition(ascii: value)
+                do throws(IETF.RFC.`2183`.ContentDisposition.Error) {
+                    return try IETF.RFC.`2183`.ContentDisposition(ascii: value)
                 } catch {
                     return nil
                 }
             }
         }
 
-        static func isAttachment(_ leaf: RFC_2046.Entity) -> Bool {
+        static func isAttachment(_ leaf: IETF.RFC.`2046`.Entity) -> Bool {
             let disposition = Self.disposition(leaf)
             switch (disposition?.type.rawValue.lowercased(), leaf.contentType.type.lowercased()) {
             case ("attachment", _): return true
@@ -39,7 +39,7 @@
             }
         }
 
-        static func filename(_ leaf: RFC_2046.Entity) -> String? {
+        static func filename(_ leaf: IETF.RFC.`2046`.Entity) -> String? {
             let disposition = Self.disposition(leaf)
             let fromDisposition: [(name: String, value: String)] =
                 (disposition?.filename.map { [(name: "filename", value: $0.rawValue)] } ?? [])
@@ -49,8 +49,8 @@
         }
 
         static func parameter(_ name: String, _ pairs: [(name: String, value: String)]) -> String? {
-            do throws(RFC_2231.Parameter.Error) {
-                return try RFC_2231.Parameters(pairs)[name].map { parameter in
+            do throws(IETF.RFC.`2231`.Parameter.Error) {
+                return try IETF.RFC.`2231`.Parameters(pairs)[name].map { parameter in
                     Email.Received.Decoding.header(
                         [Byte](utf8: Email.Received.Decoding.text(parameter.value, charset: parameter.charset?.rawValue))
                     )

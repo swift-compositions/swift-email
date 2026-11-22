@@ -6,7 +6,7 @@
     extension Email.Received {
 
         public init(_ bytes: some Swift::Collection<Byte>) {
-            self.init(entity: RFC_2046.Entity(binary: bytes))
+            self.init(entity: IETF.RFC.`2046`.Entity(binary: bytes))
         }
     }
 #endif

@@ -12,8 +12,8 @@
             var result: [String] = []
             for field in fields {
                 guard let address = Self.address(field), !address.contains("<"), !address.contains(">") else { return [] }
-                do throws(RFC_5322.Mailbox.Error) {
-                    result.append(try RFC_5322.Mailbox(address).address.lowercased())
+                do throws(IETF.RFC.`5322`.Mailbox.Error) {
+                    result.append(try IETF.RFC.`5322`.Mailbox(address).address.lowercased())
                 } catch {
                     return []
                 }

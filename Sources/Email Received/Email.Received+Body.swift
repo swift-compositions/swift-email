@@ -13,11 +13,11 @@
             body("html")
         }
 
-        var leaves: [RFC_2046.Entity] {
+        var leaves: [IETF.RFC.`2046`.Entity] {
             Self.leaves(entity)
         }
 
-        static func leaves(_ entity: RFC_2046.Entity) -> [RFC_2046.Entity] {
+        static func leaves(_ entity: IETF.RFC.`2046`.Entity) -> [IETF.RFC.`2046`.Entity] {
             switch entity.body {
             case .discrete: [entity]
             case .multipart(let multipart): multipart.parts.flatMap(leaves)

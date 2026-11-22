@@ -22,7 +22,7 @@
         }
 
         static func header(_ value: [Byte]) -> String {
-            RFC_2047.Text(value).segments.map { segment in
+            IETF.RFC.`2047`.Text(value).segments.map { segment in
                 switch segment {
                 case .text(let octets):
                     raw(octets)
@@ -32,9 +32,9 @@
             }.joined()
         }
 
-        static func word(_ word: RFC_2047.EncodedWord) -> String {
-            do throws(RFC_2047.EncodedWord.Error) {
-                return text(try word.octets, charset: RFC_2231.Charset(word.charset).name.rawValue)
+        static func word(_ word: IETF.RFC.`2047`.EncodedWord) -> String {
+            do throws(IETF.RFC.`2047`.EncodedWord.Error) {
+                return text(try word.octets, charset: IETF.RFC.`2231`.Charset(word.charset).name.rawValue)
             } catch {
                 return String(decoding: word.text.map(\.byte.bitPattern), as: UTF8.self)
             }

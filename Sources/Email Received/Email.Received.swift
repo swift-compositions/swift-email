@@ -6,9 +6,9 @@
 
         public struct Received: Sendable, Hashable {
 
-            public let entity: RFC_2046.Entity
+            public let entity: IETF.RFC.`2046`.Entity
 
-            public init(entity: RFC_2046.Entity) {
+            public init(entity: IETF.RFC.`2046`.Entity) {
                 self.entity = entity
             }
         }
